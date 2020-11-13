@@ -7,8 +7,8 @@ const schema = {
       "description": "Client ID",
       "type": "string"
     },
-    "token": {
-      "description": "token",
+    "accessToken": {
+      "description": "Token",
       "type": "string"
     },
   },
