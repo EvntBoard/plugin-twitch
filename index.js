@@ -8,8 +8,7 @@ module.exports = {
   module: moduleTwitch,
   schema,
   defaultConfig: {
-    host: '0.0.0.0',
-    port: 4444,
-    password: '',
+    clientId: 'gp762nuuoqcoxypju8c569th9wz7q5',
+    accessToken: '',
   }
 }
