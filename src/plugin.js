@@ -207,7 +207,7 @@ class TwitchEvntBoard {
 
   async unload() {
     if (this.chatClient) {
-      this.chatClient?.disconnect();
+      this.chatClient?.quit();
     }
     this.apiClient = null
     this.chatClient = null
