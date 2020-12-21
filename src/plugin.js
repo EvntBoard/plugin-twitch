@@ -1,6 +1,7 @@
 const { ApiClient } = require('twitch')
 const { StaticAuthProvider } = require('twitch-auth')
 const { ChatClient } = require('twitch-chat-client')
+const { PubSubClient } = require('twitch-pubsub-client')
 
 class TwitchEvntBoard {
   constructor(options, { evntBus, logger }) {
@@ -10,8 +11,10 @@ class TwitchEvntBoard {
     this.logger = logger;
     this.apiClient = null
     this.chatClient = null
+    this.pubSubClient = null
     this.currentChannel = null
     this.currentId = null
+    this.cpListener = null
   }
 
   async load() {
@@ -19,6 +22,9 @@ class TwitchEvntBoard {
       this.evntBus?.newEvent('twitch-load')
       const authProvider = new StaticAuthProvider(this.clientId, this.accessToken);
       this.apiClient = new ApiClient({ authProvider })
+      this.pubSubClient = new PubSubClient()
+      const userId = await this.pubSubClient.registerUserListener(this.apiClient)
+
 
       const { _data: { login, id } }  = await this.apiClient.helix.users.getMe(false)
 
@@ -33,6 +39,11 @@ class TwitchEvntBoard {
 
       this.chatClient.onDisconnect(() => {
         this.evntBus?.newEvent('twitch-close')
+      })
+
+      // Fires when a user redeems channel points
+      this.cpListener = await this.pubSubClient.onRedemption(userId, message => {
+        this.evntBus?.newEvent('twitch-channel-point-redeem', {userId, message})
       })
 
       // Fires when a user sends a message to a channel.
