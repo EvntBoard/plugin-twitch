@@ -224,6 +224,9 @@ class TwitchEvntBoard {
     this.chatClient = null
     this.currentChannel = null
     this.currentId = null
+    this.pubSubClient = null
+    this.cpListener.remove()
+    this.cpListener = null
     this.evntBus?.newEvent('twitch-unload');
   }
 
