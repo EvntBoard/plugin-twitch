@@ -43,7 +43,9 @@ class TwitchEvntBoard {
 
       // Fires when a user redeems channel points
       this.cpListener = await this.pubSubClient.onRedemption(userId, message => {
-        this.evntBus?.newEvent('twitch-channel-point-redeem', {userId, message})
+        const user = message.userName
+        const msg = message
+        this.evntBus?.newEvent('twitch-channel-point-redeem', {user, msg})
       })
 
       // Fires when a user sends a message to a channel.
