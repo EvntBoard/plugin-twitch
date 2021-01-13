@@ -110,7 +110,6 @@ class TwitchEvntBoard {
         this.evntBus?.newEvent('twitch-hosted', { channel: byChannel, auto, viewers })
       })
 
-      // Fires when Twitch tells you the number of hosts you have remaining in the next half hour for the channel for which you're logged in as owner after hosting a channel.
       this.chatClient.onHostsRemaining(async (channel, numberOfHosts) => {
         this.evntBus?.newEvent('twitch-hosts-remaining', { numberOfHosts })
       })
