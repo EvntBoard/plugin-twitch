@@ -107,7 +107,7 @@ class TwitchEvntBoard {
 
       // Fires when a channel you're logged in as its owner is being hosted by another channel.
       this.chatClient.onHosted(async (channel, byChannel, auto, viewers) => {
-        this.evntBus?.newEvent('twitch-hosted', { channel, auto, viewers })
+        this.evntBus?.newEvent('twitch-hosted', { channel: byChannel, auto, viewers })
       })
 
       // Fires when Twitch tells you the number of hosts you have remaining in the next half hour for the channel for which you're logged in as owner after hosting a channel.
