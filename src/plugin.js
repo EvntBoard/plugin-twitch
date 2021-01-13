@@ -15,6 +15,7 @@ class TwitchEvntBoard {
     this.currentChannel = null
     this.currentId = null
     this.cpListener = null
+    this.bitsListener = null
   }
 
   async load() {
@@ -46,6 +47,15 @@ class TwitchEvntBoard {
           user: msg.userName,
           title: msg?._data?.data?.redemption?.reward?.title,
           message: msg?._data?.data?.redemption?.user_input,
+          msg
+        })
+      })
+
+      this.bitsListener = await this.pubSubClient.onBits(this.currentId, msg => {
+        this.evntBus?.newEvent('twitch-bits', {
+          user: msg.userName,
+          ammount: msg.bits,
+          message: msg.message,
           msg
         })
       })
@@ -229,12 +239,17 @@ class TwitchEvntBoard {
       this.cpListener?.remove()
     }
 
+    if (this.bitsListener) {
+      this.bitsListener?.remove()
+    }
+
     this.apiClient = null
     this.chatClient = null
     this.currentChannel = null
     this.currentId = null
     this.pubSubClient = null
     this.cpListener = null
+    this.bitsListener = null
     this.evntBus?.newEvent('twitch-unload');
   }
 
