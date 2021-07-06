@@ -1,25 +1,28 @@
 {
-  "name": "evntboard-module-twitch",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.js",
+  "main": "dist/main.js",
+  "bin": "dist/main.js",
   "scripts": {
+    "release": "ncc build -m src/main.ts",
+    "postrelease": "copyfiles ./dist/* ../releases/modules/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EvntBoard/module-twitch.git"
-  },
+  "keywords": [],
   "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/EvntBoard/module-twitch/issues"
-  },
-  "homepage": "https://github.com/EvntBoard/module-twitch#readme",
   "dependencies": {
-    "twitch": "^4.2.7",
-    "twitch-auth": "^4.2.7",
-    "twitch-chat-client": "^4.2.7",
-    "twitch-pubsub-client": "^4.2.7"
+    "lodash": "^4.17.21",
+    "twitch": "^4.5.5",
+    "twitch-auth": "^4.5.5",
+    "twitch-chat-client": "^4.5.5",
+    "twitch-pubsub-client": "^4.5.5"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.170",
+    "@types/node": "^15.6.1",
+    "copyfiles": "^2.4.1",
+    "typescript": "^4.2.4"
   }
 }
