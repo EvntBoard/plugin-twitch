@@ -1,9 +1,8 @@
 import { EvntComClient, EvntComServer } from "evntboard-communicate";
 import process from 'process';
+import {TwitchModule} from "./TwitchModule";
 
-const { name, entrypoint } = JSON.parse(process.argv[2]);
-
-process.stdout.write(JSON.stringify({ name, entrypoint }))
+const { config: { clientId: CLIENT_ID, token: TOKEN } } = JSON.parse(process.argv[2]);
 
 const evntComClient = new EvntComClient(
     (cb: any) => process.on('message', cb),
@@ -17,8 +16,11 @@ evntComServer.registerOnData((cb: any) => process.on('message', async (data) => 
     if (toSend) process.send(toSend);
 }));
 
+let twitchModule: TwitchModule;
+
 evntComServer.expose("init", async () => {
-    await evntComClient.notify("newEvent", ['twitch-load']);
-    process.stdout.write("INIT")
-    await evntComClient.notify("newEvent", ['twitch-loaded']);
+    twitchModule = new TwitchModule(evntComClient, CLIENT_ID, TOKEN);
+    await twitchModule.load();
 })
+
+evntComServer.expose("say", twitchModule && twitchModule.say)
