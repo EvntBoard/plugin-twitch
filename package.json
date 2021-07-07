@@ -6,6 +6,7 @@
   "bin": "dist/main.js",
   "scripts": {
     "release": "ncc build -m src/main.ts",
+    "tsc": "tsc -p .",
     "postrelease": "copyfiles ./dist/* ../releases/modules/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,12 +14,12 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@twurple/api": "^5.0.0-pre.10",
+    "@twurple/auth": "^5.0.0-pre.10",
+    "@twurple/chat": "^5.0.0-pre.10",
+    "@twurple/pubsub": "^5.0.0-pre.10",
     "evntboard-communicate": "https://github.com/EvntBoard/communicate.git",
-    "lodash": "^4.17.21",
-    "twitch": "^4.6.0",
-    "twitch-auth": "^4.6.0",
-    "twitch-chat-client": "^4.6.0",
-    "twitch-pubsub-client": "^4.6.0"
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.170",
